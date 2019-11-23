@@ -64,7 +64,7 @@ class TypeWriterSounds:
     def __init__(self):
         # * Initialises pygame mixer. A buffer of 512 bytes is required for
         # * better performance
-        pygame.mixer.init(buffer=512)
+        pygame.mixer.init(buffer=1024)
 
         self.bellcount = 0
 
@@ -83,8 +83,8 @@ class TypeWriterSounds:
         self.keys = {}
         for name in dir(XK):
             if name[:3] == "XK_" :
-                self.keys[name] = getattr(XK, name) 
-                
+                self.keys[name] = getattr(XK, name)
+
 
         print("TypeWriter Sounds Emulator. v1.0")
         print("type now and enjoy the vintage experience!...")
@@ -101,8 +101,8 @@ class TypeWriterSounds:
         if not self.record_dpy.has_extension("RECORD"):
             print ("RECORD extension not found")
             sys.exit(1)
-            
-            
+
+
 
         # Create a recording context; we only want key events
         self.ctx = self.record_dpy.record_create_context(
@@ -122,7 +122,7 @@ class TypeWriterSounds:
 
 
         try:
-            # Enable the context; this only returns after a call to 
+            # Enable the context; this only returns after a call to
             # record_disable_context,
             # while calling the callback function in the meantime
             self.record_dpy.record_enable_context(  self.ctx, \
@@ -139,44 +139,44 @@ class TypeWriterSounds:
         if reply.client_swapped:
             print("* received swapped protocol data, cowardly ignored")
             return
-        if not len(reply.data) or ord(reply.data[0]) < 2:
+        if not len(reply.data) or ord(str(reply.data[0])) < 2:
             # not an event
             return
 
         data = reply.data
         while len(data):
             event, data = rq.EventField(None).\
-                            parse_binary_value( data, 
-                                                self.record_dpy.display, 
+                            parse_binary_value( data,
+                                                self.record_dpy.display,
                                                 None, None)
 
             if event.type == X.KeyPress:
-                # * If a key is pressed, gets its keycode 
+                # * If a key is pressed, gets its keycode
                 pr = event.type == X.KeyPress and "Press" or "Release"
                 keysym = self.local_dpy.keycode_to_keysym(event.detail, 0)
-                
 
-                # * Plays an audio sample according the keycode   
 
-                # * - Enter      
+                # * Plays an audio sample according the keycode
+
+                # * - Enter
                 if keysym == self.keys['XK_Return']:
                     self.keysounds['enter'].play()
                     self.bellcount = 0
-                
+
                 # * - Spacebar
                 elif keysym == self.keys['XK_space']:
                     self.keysounds['space'].play()
                     self.bellcount += 1
-                
-                # * - Delete and backspace   
+
+                # * - Delete and backspace
                 elif (keysym == self.keys['XK_Delete']) or \
                      (keysym == self.keys['XK_BackSpace']):
                     self.keysounds['delete'].play()
                     self.bellcount -= 1
                     if self.bellcount <= 0:
                         self.bellcount = 0
-                
-                # * - Shift (and other control keys) 
+
+                # * - Shift (and other control keys)
                 elif    keysym == self.keys['XK_Up'] or \
                         keysym == self.keys['XK_Down'] or \
                         keysym == self.keys['XK_Left'] or \
@@ -205,22 +205,22 @@ class TypeWriterSounds:
                         keysym == self.keys['XK_Super_R'] or\
                         keysym == self.keys['XK_Escape'] or\
                         keysym > 65535:
-                            
+
                     self.keysounds['shift'].play()
-                
+
                 # * - Page Up/Down, Home/End: play page load
                 elif    keysym == self.keys['XK_Page_Up'] or \
                         keysym == self.keys['XK_Next'] or\
                         keysym == self.keys['XK_Home'] or \
                         keysym == self.keys['XK_End']:
                     self.keysounds['load'].play()
-                
-                # * - A simple key         
+
+                # * - A simple key
                 else:
                     self.keysounds['key'].play()
                     self.bellcount += 1
-                
-                # * - After 70 consecutive keypresses, play the bell sound    
+
+                # * - After 70 consecutive keypresses, play the bell sound
                 if self.bellcount == 70:
                     self.keysounds['bell'].play()
                     self.bellcount = 0
