@@ -1,5 +1,4 @@
-Typewriter sounds emulator for Python
-=====================================
+# Typewriter sounds emulator for Python
 
 This program plays typewriter sounds each time a key is pressed, giving
 the user the vintage experience of and old typewriter machine.
@@ -16,15 +15,15 @@ Linux.
 Sound samples come from <https://www.freesound.org/>, some were modified
 for this project.
 
-Requeriments
-------------
+# Requirements
 
--   Python 2.7 (but should work with 3.5)
--   [X11 and Xlib bindings for Python](http://python-xlib.sourceforge.net/)
--   [PyGame](http://pygame.org) (for sound)
+* Python >=2.7 (but should work with 3.5)
+* [X11 and Xlib bindings for Python](http://python-xlib.sourceforge.net/)
+  * `pip install xlib`
+* [PyGame](http://pygame.org) (for sound)
+  * `pip install pygame`
 
-Usage
------
+# Usage
 
 cd into the project's directory and type:
 
@@ -32,16 +31,22 @@ cd into the project's directory and type:
 
 to stop the program, just type CTRL-C.
 
-TODO
-----
+# Aliases
+To easily launch this from anywhere using bash:
 
--   Test it in different platforms. In Windows it should work using
-    Cygwin
--   Add an installer
--   Eventually: add a tray icon GUI.
+```
+alias typewriter='python ~/.typewriter-sounds/typewriter_sounds.py'
+alias tw='typewriter'
+```
 
-Author
-------
+# TODO
+* Test it in different platforms. In Windows it should work using
+* Cygwin
+* Add an installer
+* Eventually: add a tray icon GUI.
 
+# Author
 Manuel Arturo Izquierdo <aizquier@gmail.com>
 
+# Contributors
+* Sébastien Dubois
