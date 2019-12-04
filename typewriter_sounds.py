@@ -6,6 +6,9 @@ from Xlib.ext import record
 from Xlib.protocol import rq
 import pygame
 
+typewriter_sounds_folder_path=os.path.dirname(os.path.abspath(__file__))
+samples_folder=typewriter_sounds_folder_path + '/samples'
+
 class TypeWriterSounds:
 
     """
@@ -70,13 +73,13 @@ class TypeWriterSounds:
 
         # * Preloads sound samples
         self.keysounds = {
-            'load' : pygame.mixer.Sound('samples/manual_load_long.wav'),
-            'shift' : pygame.mixer.Sound('samples/manual_shift.wav'),
-            'delete': pygame.mixer.Sound('samples/manual_backspace.wav'),
-            'space': pygame.mixer.Sound('samples/manual_space.wav'),
-            'key': pygame.mixer.Sound('samples/manual_key.wav'),
-            'enter': pygame.mixer.Sound('samples/manual_return.wav'),
-            'bell': pygame.mixer.Sound('samples/manual_bell.wav')
+            'load' : pygame.mixer.Sound(samples_folder + '/manual_load_long.wav'),
+            'shift' : pygame.mixer.Sound(samples_folder + '/manual_shift.wav'),
+            'delete': pygame.mixer.Sound(samples_folder + '/manual_backspace.wav'),
+            'space': pygame.mixer.Sound(samples_folder + '/manual_space.wav'),
+            'key': pygame.mixer.Sound(samples_folder + '/manual_key.wav'),
+            'enter': pygame.mixer.Sound(samples_folder + '/manual_return.wav'),
+            'bell': pygame.mixer.Sound(samples_folder + '/manual_bell.wav')
         }
 
         # * Get keynames from X11
